@@ -1,6 +1,6 @@
 {
     "name": "com.bigbearstudios.bbunity-events",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "displayName": "BBUnity Events",
     "description": "Basic event handling library",
     "unity": "2018.3",

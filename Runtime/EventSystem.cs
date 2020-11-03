@@ -189,7 +189,7 @@ namespace BBUnity.Events {
         public void Clear(bool preserveLookups) {
             if(preserveLookups) {
                 foreach(Dictionary<int, EventDelegate> events in _events.Values) {
-                    _events.Clear();
+                    events.Clear();
                 }
             } else {
                 Clear();
