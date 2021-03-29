@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BBUnity.Events {
+namespace BBUnity {
 
     /// <summary>
     /// A lightweight version of the EventSystem. This doesn't allocate any extra data
     /// via the Event wrapper and just forwards the caller / data along. 
     /// </summary>
-    public class LWEventSystem {
+    public class GameLWEventSystem {
         public delegate void LWEventDelegate(string eventName, object caller, object data);
 
         private Dictionary<int, Dictionary<int, LWEventDelegate>> _events;
 
-        public LWEventSystem() {
+        public GameLWEventSystem() {
             _events = new Dictionary<int, Dictionary<int, LWEventDelegate>>();
         }
 
@@ -21,15 +21,15 @@ namespace BBUnity.Events {
          */
 
         public void ListenFor(string eventName, LWEventDelegate onEvent) {
-            AddInternalListener(Utilities.HashCodeForEventName(eventName), onEvent);
+            AddInternalListener(Internal.Events.Utilities.HashCodeForEventName(eventName), onEvent);
         }
 
         public void Add(string eventName, LWEventDelegate onEvent) {
-            AddInternalListener(Utilities.HashCodeForEventName(eventName), onEvent);
+            AddInternalListener(Internal.Events.Utilities.HashCodeForEventName(eventName), onEvent);
         }
 
         private void AddInternalListener(int eventHashCode, LWEventDelegate onEvent) {
-            int objectHashCode = Utilities.HashCodeForLWEventDelegate(onEvent);
+            int objectHashCode = Internal.Events.Utilities.HashCodeForLWEventDelegate(onEvent);
 
             if(_events.TryGetValue(eventHashCode, out Dictionary<int, LWEventDelegate> events)) {
                 events[objectHashCode] = onEvent;
@@ -67,7 +67,7 @@ namespace BBUnity.Events {
         }
 
         private void SendInternalEvent(string eventName, object caller = null, object data = null) {
-            int eventHashCode = Utilities.HashCodeForEventName(eventName);
+            int eventHashCode = Internal.Events.Utilities.HashCodeForEventName(eventName);
             if(_events.TryGetValue(eventHashCode, out Dictionary<int, LWEventDelegate> value)) {
                 foreach(LWEventDelegate del in value.Values) {
                     del(eventName, caller, data);
@@ -89,7 +89,7 @@ namespace BBUnity.Events {
         }
 
         public void Remove(string eventName, object listener) {
-            RemoveListener(Utilities.HashCodeForEventName(eventName), listener);
+            RemoveListener(Internal.Events.Utilities.HashCodeForEventName(eventName), listener);
         }
 
         private void RemoveListener(int eventHashCode, object listener) {
@@ -106,11 +106,11 @@ namespace BBUnity.Events {
          */
 
         public void Remove(string eventName) {
-            RemoveListeners(Utilities.HashCodeForEventName(eventName), false);
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventName(eventName), false);
         }
 
         public void Remove(string eventName, bool preserveLookups) {
-            RemoveListeners(Utilities.HashCodeForEventName(eventName), preserveLookups);
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventName(eventName), preserveLookups);
         }
 
         private void RemoveListeners(int eventHashCode, bool preserveLookups) {

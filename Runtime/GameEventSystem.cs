@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BBUnity.Events {
+namespace BBUnity {
 
     /// <summary>
     /// A simple event system
     /// The events or event system should not be persisted into a file or database due to the
     /// nature of generation of the UUIDs
     /// </summary>
-    public class EventSystem {
-        public delegate void EventDelegate(Event e);
+    public class GameEventSystem {
+        public delegate void EventDelegate(GameEvent e);
 
         private Dictionary<int, Dictionary<int, EventDelegate>> _events;
 
-        public EventSystem() {
+        public GameEventSystem() {
             _events = new Dictionary<int, Dictionary<int, EventDelegate>>();
         }
 
         /*
-         * Registeration of Event Listeners
+         * Registration of Event Listeners
          */
 
         public void ListenFor(string eventName, EventDelegate onEvent) {
-            AddInternalListener(Utilities.HashCodeForEventName(eventName), onEvent);
+            AddInternalListener(Internal.Events.Utilities.HashCodeForEventName(eventName), onEvent);
         }
 
-        public void ListenFor<T>(EventDelegate onEvent) where T : Event {
+        public void ListenFor<T>(EventDelegate onEvent) where T : GameEvent {
             AddInternalListener(typeof(T), onEvent);
         }
 
@@ -34,10 +34,10 @@ namespace BBUnity.Events {
         }
 
         public void Add(string eventName, EventDelegate onEvent) {
-            AddInternalListener(Utilities.HashCodeForEventName(eventName), onEvent);
+            AddInternalListener(Internal.Events.Utilities.HashCodeForEventName(eventName), onEvent);
         }
 
-        public void Add<T>(EventDelegate onEvent) where T : Event {
+        public void Add<T>(EventDelegate onEvent) where T : GameEvent {
             AddInternalListener(typeof(T), onEvent);
         }
 
@@ -46,11 +46,11 @@ namespace BBUnity.Events {
         }
 
         private void AddInternalListener(Type eventType, EventDelegate onEvent) {
-            AddInternalListener(Utilities.HashCodeForEventType(eventType), onEvent);
+            AddInternalListener(Internal.Events.Utilities.HashCodeForEventType(eventType), onEvent);
         }
 
         private void AddInternalListener(int eventHashCode, EventDelegate onEvent) {
-            int objectHashCode = Utilities.HashCodeForEventDelegate(onEvent);
+            int objectHashCode = Internal.Events.Utilities.HashCodeForEventDelegate(onEvent);
 
             if(_events.TryGetValue(eventHashCode, out Dictionary<int, EventDelegate> events)) {
                 events[objectHashCode] = onEvent;
@@ -64,39 +64,39 @@ namespace BBUnity.Events {
          */
 
         public void Broadcast(string eventName) {
-            SendInternalEvent(new Event(eventName));
+            SendInternalEvent(new GameEvent(eventName));
         }
 
         public void Broadcast(string eventName, object caller) {
-            SendInternalEvent(new Event(eventName, caller));
+            SendInternalEvent(new GameEvent(eventName, caller));
         }
 
         public void Broadcast(string eventName, object caller, object data) {
-            SendInternalEvent(new Event(eventName, caller, data));
+            SendInternalEvent(new GameEvent(eventName, caller, data));
         }
 
-        public void Broadcast(Event e) {
+        public void Broadcast(GameEvent e) {
             SendInternalEvent(e);
         }
 
         public void Send(string eventName) {
-            SendInternalEvent(new Event(eventName));
+            SendInternalEvent(new GameEvent(eventName));
         }
 
         public void Send(string eventName, object caller) {
-            SendInternalEvent(new Event(eventName, caller));
+            SendInternalEvent(new GameEvent(eventName, caller));
         }
 
         public void Send(string eventName, object caller, object data) {
-            SendInternalEvent(new Event(eventName, caller, data));
+            SendInternalEvent(new GameEvent(eventName, caller, data));
         }
 
-        public void Send(Event e) {
+        public void Send(GameEvent e) {
            SendInternalEvent(e);
         }
 
-        private void SendInternalEvent(Event e) {
-            int eventHashCode = Utilities.HashCodeForEvent(e);
+        private void SendInternalEvent(GameEvent e) {
+            int eventHashCode = Internal.Events.Utilities.HashCodeForEvent(e);
             if(_events.TryGetValue(eventHashCode, out Dictionary<int, EventDelegate> value)) {
                 foreach(EventDelegate del in value.Values) {
                     del(e);
@@ -118,15 +118,15 @@ namespace BBUnity.Events {
         }
 
         public void Remove(string eventName, object listener) {
-            RemoveListener(Utilities.HashCodeForEventName(eventName), listener);
+            RemoveListener(Internal.Events.Utilities.HashCodeForEventName(eventName), listener);
         }
         
-        public void Remove<T>(object listener) where T : Event {
-            RemoveListener(Utilities.HashCodeForEventType(typeof(T)), listener);
+        public void Remove<T>(object listener) where T : GameEvent {
+            RemoveListener(Internal.Events.Utilities.HashCodeForEventType(typeof(T)), listener);
         }
 
         public void Remove(Type eventType, object listener) {
-            RemoveListener(Utilities.HashCodeForEventType(eventType), listener);
+            RemoveListener(Internal.Events.Utilities.HashCodeForEventType(eventType), listener);
         }
 
         private void RemoveListener(int eventHashCode, object listener) {
@@ -143,27 +143,27 @@ namespace BBUnity.Events {
          */
 
         public void Remove(string eventName) {
-            RemoveListeners(Utilities.HashCodeForEventName(eventName), false);
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventName(eventName), false);
         }
 
-        public void Remove<T>() where T : Event {
-            RemoveListeners(Utilities.HashCodeForEventType(typeof(T)), false);
+        public void Remove<T>() where T : GameEvent {
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventType(typeof(T)), false);
         }
 
         public void Remove(Type eventType) {
-            RemoveListeners(Utilities.HashCodeForEventType(eventType), false);
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventType(eventType), false);
         }
 
         public void Remove(string eventName, bool preserveLookups) {
-            RemoveListeners(Utilities.HashCodeForEventName(eventName), preserveLookups);
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventName(eventName), preserveLookups);
         }
 
-        public void Remove<T>(bool preserveLookups) where T : Event {
-            RemoveListeners(Utilities.HashCodeForEventType(typeof(T)), preserveLookups);
+        public void Remove<T>(bool preserveLookups) where T : GameEvent {
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventType(typeof(T)), preserveLookups);
         }
 
         public void Remove(Type eventType, bool preserveLookups) {
-            RemoveListeners(Utilities.HashCodeForEventType(eventType), preserveLookups);
+            RemoveListeners(Internal.Events.Utilities.HashCodeForEventType(eventType), preserveLookups);
         }
 
         private void RemoveListeners(int eventHashCode, bool preserveLookups) {

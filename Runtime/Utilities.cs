@@ -1,15 +1,15 @@
 ﻿using System;
 
-using static BBUnity.Events.EventSystem;
-using static BBUnity.Events.LWEventSystem;
+using static BBUnity.GameEventSystem;
+using static BBUnity.GameLWEventSystem;
 
-namespace BBUnity.Events {
+namespace BBUnity.Internal.Events {
     public class Utilities {
         public static int HashCodeForEventName(string eventName) {
             return eventName.GetHashCode();
         }
 
-        public static int HashCodeForEvent(Event e) {
+        public static int HashCodeForEvent(GameEvent e) {
             return e.Name.GetHashCode();
         }
 

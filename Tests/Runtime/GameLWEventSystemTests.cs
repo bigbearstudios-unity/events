@@ -2,13 +2,18 @@
 using TestSupport;
 
 using System;
-using BBUnity.Events;
 
-public class LWEventSystemTests {
+#if BBUNITY_USE_EVENT_NAMESPACE
+using BBUnity.Events;
+#else 
+using BBUnity;
+#endif
+
+public class GameLWEventSystemTests {
 
     [Test]
     public void LWEventSystem_ShouldAllowRegisteringOfEventName() {
-        CreateLWEventSystem((LWEventSystem e) => {
+        CreateLWEventSystem((GameLWEventSystem e) => {
             EventAssert.AssertCalled((EventAssert helper) => {
                 e.ListenFor("TestEvent", helper.OnEvent);
                 e.Broadcast("TestEvent");
@@ -18,7 +23,7 @@ public class LWEventSystemTests {
 
     [Test]
     public void Clear_ShouldRemoveAllListeners() {
-        CreateLWEventSystem((LWEventSystem e) => {
+        CreateLWEventSystem((GameLWEventSystem e) => {
             EventAssert.AssertNotCalled((EventAssert helper) => {
                 e.ListenFor("Event", helper.OnEvent);
                 e.Clear();
@@ -30,7 +35,7 @@ public class LWEventSystemTests {
 
     [Test]
     public void Remove_ShouldRemoveAllListeners_ForAGivenEvent() {
-        CreateLWEventSystem((LWEventSystem e) => {
+        CreateLWEventSystem((GameLWEventSystem e) => {
             EventAssert.AssertFirstCalled((EventAssert helper, EventAssert helper2) => {
                 e.ListenFor("Event", helper.OnEvent);
                 e.ListenFor("TestEvent", helper2.OnEvent);
@@ -45,7 +50,7 @@ public class LWEventSystemTests {
 
     [Test]
     public void Remove_ShouldRemoveListenerForObject() {
-        CreateLWEventSystem((LWEventSystem e) => {
+        CreateLWEventSystem((GameLWEventSystem e) => {
             EventAssert.AssertNotCalled((EventAssert helper) => {
                 e.ListenFor("Event", helper.OnEvent);
                 e.Remove(helper);
@@ -57,7 +62,7 @@ public class LWEventSystemTests {
 
     [Test]
     public void Remove_ShouldRemoveListenerForEvent() {
-        CreateLWEventSystem((LWEventSystem e) => {
+        CreateLWEventSystem((GameLWEventSystem e) => {
             EventAssert.AssertNotCalled((EventAssert helper) => {
                 e.ListenFor("Event",helper.OnEvent);
                 e.Remove("Event",helper);
@@ -69,7 +74,7 @@ public class LWEventSystemTests {
 
     [Test]
     public void Remove_WhenRegisteredWithMutlipleEvents_ShouldOnlyClearMatchingEvents() {
-        CreateLWEventSystem((LWEventSystem e) => {
+        CreateLWEventSystem((GameLWEventSystem e) => {
             EventAssert.AssertFirstCalled((EventAssert helper, EventAssert helper2) => {
                 e.ListenFor("Event", helper.OnEvent);
                 e.ListenFor("TestEvent", helper2.OnEvent);
@@ -82,8 +87,8 @@ public class LWEventSystemTests {
         });
     } 
 
-    private void CreateLWEventSystem(Action<LWEventSystem> func) {
-        LWEventSystem eventSystem = new LWEventSystem();
+    private void CreateLWEventSystem(Action<GameLWEventSystem> func) {
+        GameLWEventSystem eventSystem = new GameLWEventSystem();
         func(eventSystem);
     }
 }

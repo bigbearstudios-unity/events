@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿
+namespace BBUnity {
 
-namespace BBUnity.Events {
-
-    public class Event {
+    public class GameEvent {
 
         /// <summary>
         /// The name of the event, this can be provided for matching or will fall
@@ -30,27 +29,27 @@ namespace BBUnity.Events {
 
         private string NameForType { get { return GetType().Name; } }
 
-        public Event() {
+        public GameEvent() {
             Construct(NameForType);
         }
 
-        public Event(object caller) {
+        public GameEvent(object caller) {
             Construct(NameForType, caller);
         }
 
-        public Event(object caller, object data) {
+        public GameEvent(object caller, object data) {
             Construct(NameForType, caller, data);
         }
 
-        public Event(string name) {
+        public GameEvent(string name) {
             Construct(name);
         }
 
-        public Event(string name, object caller) {
+        public GameEvent(string name, object caller) {
             Construct(name, caller);
         }
 
-        public Event(string name, object caller, object data) {
+        public GameEvent(string name, object caller, object data) {
             Construct(name, caller, data);
         }
 

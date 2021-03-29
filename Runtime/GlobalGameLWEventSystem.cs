@@ -1,21 +1,21 @@
-﻿using static BBUnity.Events.LWEventSystem;
+﻿using static BBUnity.GameLWEventSystem;
 
-namespace BBUnity.Events {
-    public class GlobalLWEventSystem {
+namespace BBUnity {
+    public class GlobalGameLWEventSystem {
 
-        private static LWEventSystem __globalLWEventSystem;
+        private static GameLWEventSystem _globalGameLwEventSystem;
 
-        static GlobalLWEventSystem() {
-            __globalLWEventSystem = new LWEventSystem();
+        static GlobalGameLWEventSystem() {
+            _globalGameLwEventSystem = new GameLWEventSystem();
         }
 
 
         public void ListenFor(string eventName, LWEventDelegate onEvent) {
-            __globalLWEventSystem.ListenFor(eventName, onEvent);
+            _globalGameLwEventSystem.ListenFor(eventName, onEvent);
         }
 
         public void Add(string eventName, LWEventDelegate onEvent) {
-           __globalLWEventSystem.Add(eventName, onEvent);
+           _globalGameLwEventSystem.Add(eventName, onEvent);
         }
 
         /*
@@ -23,27 +23,27 @@ namespace BBUnity.Events {
          */
 
         public void Broadcast(string eventName) {
-            __globalLWEventSystem.Broadcast(eventName);
+            _globalGameLwEventSystem.Broadcast(eventName);
         }
 
         public void Broadcast(string eventName, object caller) {
-            __globalLWEventSystem.Broadcast(eventName, caller);
+            _globalGameLwEventSystem.Broadcast(eventName, caller);
         }
 
         public void Broadcast(string eventName, object caller, object data) {
-            __globalLWEventSystem.Broadcast(eventName, caller, data);
+            _globalGameLwEventSystem.Broadcast(eventName, caller, data);
         }
 
         public void Send(string eventName) {
-            __globalLWEventSystem.Send(eventName);
+            _globalGameLwEventSystem.Send(eventName);
         }
 
         public void Send(string eventName, object caller) {
-             __globalLWEventSystem.Send(eventName, caller);
+             _globalGameLwEventSystem.Send(eventName, caller);
         }
 
         public void Send(string eventName, object caller, object data) {
-            __globalLWEventSystem.Send(eventName, caller, data);
+            _globalGameLwEventSystem.Send(eventName, caller, data);
         }
 
         /*
@@ -51,11 +51,11 @@ namespace BBUnity.Events {
          */
 
         public void Remove(object listener) {
-            __globalLWEventSystem.Remove(listener);
+            _globalGameLwEventSystem.Remove(listener);
         }
 
         public void Remove(string eventName, object listener) {
-           __globalLWEventSystem.Remove(eventName, listener);
+           _globalGameLwEventSystem.Remove(eventName, listener);
         }
 
         /*
@@ -63,11 +63,11 @@ namespace BBUnity.Events {
          */
 
         public void Remove(string eventName) {
-           __globalLWEventSystem.Remove(eventName);
+           _globalGameLwEventSystem.Remove(eventName);
         }
 
         public void Remove(string eventName, bool preserveLookups) {
-            __globalLWEventSystem.Remove(eventName, preserveLookups);
+            _globalGameLwEventSystem.Remove(eventName, preserveLookups);
         }
 
         /*
@@ -75,11 +75,11 @@ namespace BBUnity.Events {
          */
 
         public void Clear() {
-            __globalLWEventSystem.Clear();
+            _globalGameLwEventSystem.Clear();
         }
 
         public void Clear(bool preserveLookups) {
-            __globalLWEventSystem.Clear(preserveLookups);
+            _globalGameLwEventSystem.Clear(preserveLookups);
         }
     }
 }

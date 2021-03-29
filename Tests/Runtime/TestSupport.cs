@@ -1,14 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
-using BBUnity.Events;
+
+using BBUnity;
 
 namespace TestSupport {
-    public class TestEvent : Event {}
+    public class TestGameEvent : GameEvent {}
 
     public class EventAssert {
         private bool _called = false;
 
-        public void OnEvent(Event e) {
+        public void OnEvent(GameEvent e) {
             _called = true;
         }
 
