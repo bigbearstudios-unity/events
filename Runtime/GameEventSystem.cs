@@ -6,56 +6,71 @@ namespace BBUnity {
     /// <summary>
     /// A simple event system
     /// The events or event system should not be persisted into a file or database due to the
-    /// nature of generation of the UUIDs
+    /// nature of generation of the UUIDs.
     /// </summary>
     public class GameEventSystem {
-        public delegate void EventDelegate(GameEvent e);
+        /// <summary>
+        /// GameEventDelegate, sets out the call signiture for recieving an Event
+        /// </summary>
+        public delegate void GameEventDelegate(GameEvent e);
 
-        private Dictionary<int, Dictionary<int, EventDelegate>> _events;
+        /// <summary>
+        /// Reference to the global (shared) event system. 
+        /// </summary>
+        static private GameEventSystem __globalEventSystem = null;
+
+        /// <summary>
+        /// Internal Event Dictionary.
+        /// </summary>
+        private Dictionary<int, Dictionary<int, GameEventDelegate>> _events;
 
         public GameEventSystem() {
-            _events = new Dictionary<int, Dictionary<int, EventDelegate>>();
+            _events = new Dictionary<int, Dictionary<int, GameEventDelegate>>();
+        }
+
+        static GameEventSystem() {
+            __globalEventSystem = new GameEventSystem();
         }
 
         /*
          * Registration of Event Listeners
          */
 
-        public void ListenFor(string eventName, EventDelegate onEvent) {
+        public void ListenFor(string eventName, GameEventDelegate onEvent) {
             AddInternalListener(Internal.Events.Utilities.HashCodeForEventName(eventName), onEvent);
         }
 
-        public void ListenFor<T>(EventDelegate onEvent) where T : GameEvent {
+        public void ListenFor<T>(GameEventDelegate onEvent) where T : GameEvent {
             AddInternalListener(typeof(T), onEvent);
         }
 
-        public void ListenFor(Type eventType, EventDelegate onEvent) {
+        public void ListenFor(Type eventType, GameEventDelegate onEvent) {
             AddInternalListener(eventType, onEvent);
         }
 
-        public void Add(string eventName, EventDelegate onEvent) {
+        public void Add(string eventName, GameEventDelegate onEvent) {
             AddInternalListener(Internal.Events.Utilities.HashCodeForEventName(eventName), onEvent);
         }
 
-        public void Add<T>(EventDelegate onEvent) where T : GameEvent {
+        public void Add<T>(GameEventDelegate onEvent) where T : GameEvent {
             AddInternalListener(typeof(T), onEvent);
         }
 
-        public void Add(Type eventType, EventDelegate onEvent) {
+        public void Add(Type eventType, GameEventDelegate onEvent) {
             AddInternalListener(eventType, onEvent);
         }
 
-        private void AddInternalListener(Type eventType, EventDelegate onEvent) {
+        private void AddInternalListener(Type eventType, GameEventDelegate onEvent) {
             AddInternalListener(Internal.Events.Utilities.HashCodeForEventType(eventType), onEvent);
         }
 
-        private void AddInternalListener(int eventHashCode, EventDelegate onEvent) {
-            int objectHashCode = Internal.Events.Utilities.HashCodeForEventDelegate(onEvent);
+        private void AddInternalListener(int eventHashCode, GameEventDelegate onEvent) {
+            int objectHashCode = Internal.Events.Utilities.HashCodeForGameEventDelegate(onEvent);
 
-            if(_events.TryGetValue(eventHashCode, out Dictionary<int, EventDelegate> events)) {
+            if(_events.TryGetValue(eventHashCode, out Dictionary<int, GameEventDelegate> events)) {
                 events[objectHashCode] = onEvent;
             } else {
-                _events[eventHashCode] = new Dictionary<int, EventDelegate>() { { objectHashCode, onEvent } };
+                _events[eventHashCode] = new Dictionary<int, GameEventDelegate>() { { objectHashCode, onEvent } };
             }
         }
 
@@ -97,8 +112,8 @@ namespace BBUnity {
 
         private void SendInternalEvent(GameEvent e) {
             int eventHashCode = Internal.Events.Utilities.HashCodeForEvent(e);
-            if(_events.TryGetValue(eventHashCode, out Dictionary<int, EventDelegate> value)) {
-                foreach(EventDelegate del in value.Values) {
+            if(_events.TryGetValue(eventHashCode, out Dictionary<int, GameEventDelegate> value)) {
+                foreach(GameEventDelegate del in value.Values) {
                     del(e);
                 }
             }
@@ -110,7 +125,7 @@ namespace BBUnity {
 
         public void Remove(object listener) {
             int objectHashCode = listener.GetHashCode();
-            foreach(Dictionary<int, EventDelegate> events in _events.Values) {
+            foreach(Dictionary<int, GameEventDelegate> events in _events.Values) {
                 if(events.ContainsKey(objectHashCode)) {
                     events.Remove(objectHashCode);
                 }
@@ -131,7 +146,7 @@ namespace BBUnity {
 
         private void RemoveListener(int eventHashCode, object listener) {
             int objectHashCode = listener.GetHashCode();
-            if(_events.TryGetValue(eventHashCode, out Dictionary<int, EventDelegate> events)) {
+            if(_events.TryGetValue(eventHashCode, out Dictionary<int, GameEventDelegate> events)) {
                 if(events.ContainsKey(objectHashCode)) {
                     events.Remove(objectHashCode);
                 }
@@ -168,7 +183,7 @@ namespace BBUnity {
 
         private void RemoveListeners(int eventHashCode, bool preserveLookups) {
             if(preserveLookups) { //Remove the values from within the lookup, but not the lookup itself
-                if(_events.TryGetValue(eventHashCode, out Dictionary<int, EventDelegate> events)) {
+                if(_events.TryGetValue(eventHashCode, out Dictionary<int, GameEventDelegate> events)) {
                     events.Clear();
                 }   
             } else { //Removes all of the listeners lookups
@@ -188,12 +203,20 @@ namespace BBUnity {
 
         public void Clear(bool preserveLookups) {
             if(preserveLookups) {
-                foreach(Dictionary<int, EventDelegate> events in _events.Values) {
+                foreach(Dictionary<int, GameEventDelegate> events in _events.Values) {
                     events.Clear();
                 }
             } else {
                 Clear();
             }
+        }
+
+        /*
+         * Static Methods
+         */
+
+        static public GameEventSystem Global {
+            get { return __globalEventSystem; }
         }
     }
 }
