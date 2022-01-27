@@ -39,7 +39,7 @@ public class GameEventTests {
 
     [Test]
     public void Name_ShouldReturnTheTypeName_WhenConstructedWithNoName() {
-        Assert.AreEqual("Event", new GameEvent().Name);
+        Assert.AreEqual("GameEvent", new GameEvent().Name);
     }
 
     [Test]

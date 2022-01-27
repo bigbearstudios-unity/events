@@ -1,6 +1,6 @@
 ﻿
 namespace BBUnity {
-
+    
     public class GameEvent {
 
         /// <summary>
