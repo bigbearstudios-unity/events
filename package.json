@@ -2,7 +2,7 @@
     "name": "com.bigbearstudios.bbunity-events",
     "version": "2.0.0",
     "displayName": "BBUnity Events",
-    "description": "Basic event handling library",
+    "description": "Basic event handling library - Requires Unity / C# to use",
     "unity": "2018.3",
     "repository": {
         "type": "git",
@@ -21,6 +21,6 @@
         }
     ],
     "dependencies": {
-        "com.bigbearstudios.bbunity-test-support": "0.2.3"
+        "com.bigbearstudios.bbunity-test-support": "1.1.0"
     }
 }
