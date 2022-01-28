@@ -17,11 +17,11 @@ namespace BBUnity.Internal.Events {
             return eventType.Name.GetHashCode();
         }
 
-        public static int HashCodeForEventDelegate(EventDelegate onEvent) {
+        public static int HashCodeForGameEventDelegate(GameEventDelegate onEvent) {
             return onEvent.Target.GetHashCode();
         }
 
-        public static int HashCodeForLWEventDelegate(LWEventDelegate onEvent) {
+        public static int HashCodeForGameLWEventDelegate(GameLWEventDelegate onEvent) {
             return onEvent.Target.GetHashCode();
         }
     }
