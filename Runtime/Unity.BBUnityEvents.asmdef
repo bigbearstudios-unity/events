@@ -1,3 +1,13 @@
-﻿{
-	"name": "Unity.BBUnityEvents"
+{
+    "name": "Unity.BBUnityEvents",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
