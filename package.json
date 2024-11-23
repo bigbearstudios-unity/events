@@ -1,14 +1,14 @@
 {
   "name": "com.bigbearstudios.bbunity-events",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "displayName": "BBUnity Events",
   "description": "Basic event handling library - Requires Unity / C# to use",
   "unity": "2018.3",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/big-bear-studios-open-source/bbunityevents.git"
+    "url": "https://github.com/bigbearstudios-unity/events.git"
   },
-  "bugs": "https://gitlab.com/big-bear-studios-open-source/bbunityevents/-/issues",
+  "bugs": "https://github.com/bigbearstudios-unity/events/issues",
   "author": {
     "name": "Big Bear Studios",
     "email": "development@bigbearstudios.co.uk",
@@ -21,6 +21,6 @@
     }
   ],
   "dependencies": {
-    "com.bigbearstudios.bbunity-test-support": "1.2.0"
+    "com.bigbearstudios.bbunity-test-support": "2.1.1"
   }
 }
