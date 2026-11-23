@@ -1,6 +1,6 @@
 # BBUnity Events
 
-##This repository is now archived as all functionality has been brought into the [BBUnity library](https://github.com/bigbearstudios-unity/BBUnity).##
+**This repository is now archived as all functionality has been brought into the [BBUnity library](https://github.com/bigbearstudios-unity/BBUnity).**
 
 A simple event system for Unity.
 
