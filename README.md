@@ -7,6 +7,10 @@ There are two event systems avalible through this library, the first is the Even
 - [EventSystem](Documentation/EventSystem.md)
 - [LightWeightEventSystem](Documentation/LWEventSystem.md)
 
+## Archived Repository
+
+This repository is now archived as all functionality has been brought into the [BBUnity library](https://github.com/bigbearstudios-unity/BBUnity).
+
 ## Namespaces
 
 ``` csharp
